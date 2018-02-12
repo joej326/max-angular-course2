@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { AngularEssentialsPage } from './app.po';
 
-describe('max-angular-course2 App', () => {
-  let page: AppPage;
+describe('angular-essentials App', () => {
+  let page: AngularEssentialsPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new AngularEssentialsPage();
   });
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!!');
   });
 });
