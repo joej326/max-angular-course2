@@ -1,0 +1,15 @@
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group">
+    <label for="name">Character Name</label>
+    <input type="text" id="name" name="name" class="form-control" ngModel>
+  </div>
+  <div class="form-group">
+    <label for="side">Character Side</label>
+    <select type="text" id="side" name="side" class="form-control" ngModel>
+      <option *ngFor="let side of availableSides" [value]="side.value">
+        {{ side.display }}
+      </option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Add Character</button>
+</form>
