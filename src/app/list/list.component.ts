@@ -6,7 +6,7 @@ import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit, DoCheck {
+export class ListComponent implements OnInit {
   @Input() characters: {}[];
 
   constructor() { }
@@ -14,9 +14,5 @@ export class ListComponent implements OnInit, DoCheck {
   ngOnInit() {
 
   }
-
-    ngDoCheck() {
-      console.log('list component characters:', this.characters);
-    }
 
 }
