@@ -14,7 +14,9 @@ export class CreateCharacterComponent implements OnInit {
     {display: 'Dark', value: 'dark'}
 
   ];
+  selectInvalid = false;
   swService: StarWarsService;
+  defaultName = 'Clone';
 
   constructor(swService: StarWarsService) {
     this.swService = swService;
@@ -23,9 +25,14 @@ export class CreateCharacterComponent implements OnInit {
   ngOnInit() {
   }
 
+  checkSelectValidity(selectElement) {
+    if (selectElement.value === '' && selectElement.touched) {
+      this.selectInvalid = true;
+    }
+  }
+
   onSubmit(submittedForm) {
-    console.log('form submitted:', submittedForm.value);
-    this.swService.addCharacter(submittedForm.value, submittedForm.side);
+    this.swService.addCharacter(submittedForm.value.name, submittedForm.value.side);
   }
 
 }

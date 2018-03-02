@@ -1,15 +1,23 @@
 <form (ngSubmit)="onSubmit(form)" #form="ngForm">
   <div class="form-group">
-    <label for="name">Character Name</label>
-    <input type="text" id="name" name="name" class="form-control" ngModel>
+    <ng-template #characterName>
+        <label for="name">Character Name</label>
+    </ng-template>
+    <span *ngIf="nameControl.invalid && nameControl.touched; else characterName" class="help-block">Please enter a name!</span>
+    <input #nameControl="ngModel" type="text" id="name" name="name" class="form-control" [ngModel]="defaultName" required>
   </div>
   <div class="form-group">
-    <label for="side">Character Side</label>
-    <select type="text" id="side" name="side" class="form-control" ngModel>
-      <option *ngFor="let side of availableSides" [value]="side.value">
-        {{ side.display }}
-      </option>
-    </select>
+    <ng-template #characterSide>
+        <label for="side">Character Side</label>
+    </ng-template>
+    <span *ngIf="sideControl.value === '' && sideControl.touched; else characterSide" class="help-block">Please choose a side!</span>
+    <div [ngClass]="{'red-select': selectInvalid}" class="select-div">
+      <select (blur)="checkSelectValidity(sideControl)" #sideControl="ngModel" type="text" id="side" name="side" class="form-control" ngModel>
+        <option *ngFor="let side of availableSides" [value]="side.value">
+          {{ side.display }}
+        </option>
+       </select>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Add Character</button>
+  <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Add Character</button>
 </form>
