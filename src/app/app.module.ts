@@ -14,8 +14,12 @@ import { HeaderComponent } from './header/header.component';
 
 
 const routes = [
-  { path: '', component: TabsComponent },
+  { path: 'characters', component: TabsComponent, children: [
+    { path: '', redirectTo: 'all', pathMatch: 'full' }, // this is here so that if the user goes to just '/characters'
+    { path: ':side', component: ListComponent } // angular will append 'all' so its '/characters/all'
+  ] },
   { path: 'new-character', component: CreateCharacterComponent },
+  { path: '**', redirectTo: '/characters' }, // wild card must be added at the end of your paths!
 ];
 
 @NgModule({

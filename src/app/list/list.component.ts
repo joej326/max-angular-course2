@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
+import { ActivatedRoute } from '@angular/router';
+import { StarWarsService } from 'app/star-wars.service';
 
 @Component({
   selector: 'app-list',
@@ -7,12 +9,21 @@ import { DoCheck } from '@angular/core/src/metadata/lifecycle_hooks';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  @Input() characters: {}[];
+  characters: {}[];
+  activatedRoute: ActivatedRoute;
+  swService: StarWarsService;
 
-  constructor() { }
+  constructor(activatedRoute: ActivatedRoute, swService: StarWarsService) {
+    this.activatedRoute = activatedRoute;
+    this.swService = swService;
+   }
 
   ngOnInit() {
-
+    this.activatedRoute.params.subscribe(
+      (params) => {
+        this.characters = this.swService.getCharacters(params.side); // IMPORTANT the '.side' has to match the :side parameter!
+      }
+    )
   }
 
 }

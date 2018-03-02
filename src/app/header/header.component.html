@@ -1,4 +1,7 @@
-<ul class="nav nav-pills">
-  <li class="presentation"><a href="#">Star Wars Characters</a></li>
-  <li class="presentation"><a href="#">New Character</a></li>
+<ul class="nav nav-pills"> <!--routerLinkActiveOptions with exact true is built-in -->
+  <li routerLinkActive="active"
+  class="presentation"> <!--routerLinkActive can be added to the a tag or the parent wrapping element -->
+    <a routerLink="/characters">Star Wars Characters</a>
+  </li>
+  <li routerLinkActive="active" class="presentation"><a routerLink="/new-character">New Character</a></li>
 </ul>
