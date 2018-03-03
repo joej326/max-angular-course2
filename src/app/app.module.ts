@@ -19,8 +19,10 @@ const routes = [
     { path: ':side', component: ListComponent } // angular will append 'all' so its '/characters/all'
   ] },
   { path: 'new-character', component: CreateCharacterComponent },
-  { path: '**', redirectTo: '/characters' }, // wild card must be added at the end of your paths!
+  { path: '**', redirectTo: 'characters' }, // wild card must be added at the end of your paths!
 ];
+
+
 
 @NgModule({
   declarations: [

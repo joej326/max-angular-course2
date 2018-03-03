@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LogService } from 'app/log.service';
+import { Subject } from 'rxjs/Subject';
+
 
 @Injectable()
 export class StarWarsService {
@@ -9,7 +11,8 @@ export class StarWarsService {
     {name: 'Darth Vader', side: 'dark'}
   ];
   private logService: LogService;
-
+  charactersChanged = new Subject<void>(); // a subject is like an event emitter, both of which can be subscribed to
+                                     // but using a subject is considered best practice 
   constructor(logService: LogService) {
     this.logService = logService;
    }
@@ -27,6 +30,7 @@ export class StarWarsService {
   onSideChosen(charInfo) {
     const pos = this.characters.findIndex( char => char.name === charInfo.name );
     this.characters[pos].side = charInfo.side;
+    this.charactersChanged.next(); // no value passed here b/c we set our Subject to 'void'
     this.logService.writeLog(`changed side of ${charInfo.name}. New side: ${charInfo.side}`);
   }
 
