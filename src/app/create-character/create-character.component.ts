@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { StarWarsService } from 'app/star-wars.service';
 
 @Component({
@@ -28,6 +28,8 @@ export class CreateCharacterComponent implements OnInit {
   checkSelectValidity(selectElement) {
     if (selectElement.value === '' && selectElement.touched) {
       this.selectInvalid = true;
+    } else {
+      this.selectInvalid = false;
     }
   }
 

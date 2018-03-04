@@ -8,23 +8,24 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class StarWarsService {
 
-  private characters = [
-    {name: 'Luke Skywalker', side: 'light'},
-    {name: 'Darth Vader', side: 'dark'}
-  ];
+  private characters = [];
   private logService: LogService;
   charactersChanged = new Subject<void>(); // a subject is like an event emitter, both of which can be subscribed to
                                      // but using a subject is considered best practice 
   http: Http;
+  characterAddedMessage = new Subject<{name: string, side: string}>();
+
   constructor(logService: LogService, http: Http) {
     this.logService = logService;
     this.http = http;
    }
 
-   fetchCharacters() {
-     this.http.get('https://swapi.co/api/people/').map((response: Response) => response.json())
+   fetchCharacters(page) {
+     console.log('service page', page);
+     this.http.get(`https://swapi.co/api/people/?page=${page}`).map((response: Response) => response.json())
          .subscribe(
           (data) => {
+            console.log('raw data:', data);
             const characterData = data.results;
             const characters = characterData.map((char) => {
               return {name: char.name, side: ''};
@@ -60,6 +61,8 @@ export class StarWarsService {
     }
     const newChar = {name: name, side: side};
     this.characters.push(newChar);
+
+    this.characterAddedMessage.next(newChar);
   }
 
 }

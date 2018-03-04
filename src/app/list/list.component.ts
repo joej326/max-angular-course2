@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
   characters: {}[];
@@ -15,6 +15,8 @@ export class ListComponent implements OnInit, OnDestroy {
   swService: StarWarsService;
   loadedSide = 'all';
   subscription: Subscription;
+  currentPage = 1;
+  lastPage;
   
 
   constructor(activatedRoute: ActivatedRoute, swService: StarWarsService) {
@@ -40,6 +42,18 @@ export class ListComponent implements OnInit, OnDestroy {
         this.characters = this.swService.getCharacters(this.loadedSide);
       }
     );
+  }
+
+  paginate(change) {
+    if (change === 1 && this.currentPage !== this.lastPage) {
+      this.currentPage += change;
+      this.swService.fetchCharacters(this.currentPage);
+    } else if (change === -1 && this.currentPage !== 1) {
+      this.currentPage += change;
+      this.swService.fetchCharacters(this.currentPage);
+    }
+    console.log('currentPage:', this.currentPage);
+    
   }
 
   // we introduced a bug into our code where we were getting wonky behavior due to this

@@ -12,16 +12,10 @@ import { LogService } from 'app/log.service';
 import { CreateCharacterComponent } from './create-character/create-character.component';
 import { HeaderComponent } from './header/header.component';
 import { HttpModule } from '@angular/http';
+import { AppRoutingModule } from 'app/app-routing.module';
 
 
-const routes = [
-  { path: 'characters', component: TabsComponent, children: [
-    { path: '', redirectTo: 'all', pathMatch: 'full' }, // this is here so that if the user goes to just '/characters'
-    { path: ':side', component: ListComponent } // angular will append 'all' so its '/characters/all'
-  ] },
-  { path: 'new-character', component: CreateCharacterComponent },
-  { path: '**', redirectTo: 'characters' }, // wild card must be added at the end of your paths!
-];
+
 
 
 
@@ -38,7 +32,7 @@ const routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(routes)
+    AppRoutingModule
   ],
   // note: services can only be injected into other services if they are provided in the app module
   providers: [StarWarsService, LogService],
