@@ -15,6 +15,7 @@ export class ListComponent implements OnInit, OnDestroy {
   swService: StarWarsService;
   loadedSide = 'all';
   subscription: Subscription;
+  
 
   constructor(activatedRoute: ActivatedRoute, swService: StarWarsService) {
     this.activatedRoute = activatedRoute;
@@ -41,6 +42,8 @@ export class ListComponent implements OnInit, OnDestroy {
     );
   }
 
+  // we introduced a bug into our code where we were getting wonky behavior due to this
+  // ngDestroy. To prevent this we moved a line of code into the app component.
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

@@ -11,6 +11,7 @@ import { StarWarsService } from 'app/star-wars.service';
 import { LogService } from 'app/log.service';
 import { CreateCharacterComponent } from './create-character/create-character.component';
 import { HeaderComponent } from './header/header.component';
+import { HttpModule } from '@angular/http';
 
 
 const routes = [
@@ -36,6 +37,7 @@ const routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    HttpModule,
     RouterModule.forRoot(routes)
   ],
   // note: services can only be injected into other services if they are provided in the app module

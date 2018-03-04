@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LogService } from 'app/log.service';
 import { Subject } from 'rxjs/Subject';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 
 @Injectable()
@@ -13,11 +15,26 @@ export class StarWarsService {
   private logService: LogService;
   charactersChanged = new Subject<void>(); // a subject is like an event emitter, both of which can be subscribed to
                                      // but using a subject is considered best practice 
-  constructor(logService: LogService) {
+  http: Http;
+  constructor(logService: LogService, http: Http) {
     this.logService = logService;
+    this.http = http;
    }
 
-
+   fetchCharacters() {
+     this.http.get('https://swapi.co/api/people/').map((response: Response) => response.json())
+         .subscribe(
+          (data) => {
+            const characterData = data.results;
+            const characters = characterData.map((char) => {
+              return {name: char.name, side: ''};
+            });
+            console.log(characterData);
+            this.characters = characters;
+            this.charactersChanged.next();
+          }
+     );
+   }
 
 
   getCharacters(chosenList) {
