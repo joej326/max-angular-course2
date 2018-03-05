@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   swService: StarWarsService;
   characterAdded = false;
   characterAddedMessage: string;
+  sideAssignedMessage: string;
 
   constructor(swService: StarWarsService) {
     this.swService = swService;
@@ -18,6 +19,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.swService.fetchCharacters(1);
+    this.swService.sideAssigned.subscribe(
+      (character) => {
+        this.sideAssignedMessage = `${character.name} has joined the ${character.side} side!`;
+        setTimeout(() => {
+          this.sideAssignedMessage = '';
+        }, 3000);
+      }
+    );
     this.swService.characterAddedMessage.subscribe(
       (newChar) => {
         this.characterAdded = true;
