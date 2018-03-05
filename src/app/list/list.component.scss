@@ -8,6 +8,15 @@ body {
   background: #f1f1f1;
 }
 
+.currentPage {
+  color: rgb(0, 102, 204);
+  font-weight: bolder;
+}
+
+.pages {
+  font-size: 15px;
+}
+
 .loading {
   display: inline-block;
   margin: 10px auto;
@@ -39,18 +48,18 @@ body {
 	}
 
 @keyframes loading {
-		0% { 
-      transform: rotate(0); 
+		0% {
+      transform: rotate(0);
     }
-		100% { 
+		100% {
       transform: rotate(360deg);
     }
 }
 @keyframes loading-circle {
-		0% { 
+		0% {
       stroke-dashoffset: 0
     }
-		100% { 
+		100% {
       stroke-dashoffset: -600;
     }
 }

@@ -16,8 +16,9 @@ export class ListComponent implements OnInit, OnDestroy {
   loadedSide = 'all';
   subscription: Subscription;
   currentPage = 1;
-  lastPage;
-  
+  lastPage = 4;
+  pages = [1, 2, 3, 4];
+
 
   constructor(activatedRoute: ActivatedRoute, swService: StarWarsService) {
     this.activatedRoute = activatedRoute;
@@ -38,7 +39,7 @@ export class ListComponent implements OnInit, OnDestroy {
     // we update the characters with this.loadedSide.
     this.subscription = this.swService.charactersChanged.subscribe(
       // no data b/c remember our Subject is void, therefore our 'next()' is empty
-      () => { 
+      () => {
         this.characters = this.swService.getCharacters(this.loadedSide);
       }
     );
@@ -53,7 +54,11 @@ export class ListComponent implements OnInit, OnDestroy {
       this.swService.fetchCharacters(this.currentPage);
     }
     console.log('currentPage:', this.currentPage);
-    
+    // this.pages.findIndex((page) => {
+    //   if (page === this.currentPage) {
+    //     return true;
+    //   }
+    // });
   }
 
   // we introduced a bug into our code where we were getting wonky behavior due to this

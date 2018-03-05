@@ -12,7 +12,7 @@ export class StarWarsService {
   private logService: LogService;
   sideAssigned = new Subject<{name: string, side: string}>();
   charactersChanged = new Subject<void>(); // a subject is like an event emitter, both of which can be subscribed to
-                                     // but using a subject is considered best practice 
+                                     // but using a subject is considered best practice
   http: Http;
   characterAddedMessage = new Subject<{name: string, side: string}>();
 
@@ -50,6 +50,7 @@ export class StarWarsService {
     const pos = this.characters.findIndex( char => char.name === charInfo.name );
     this.characters[pos].side = charInfo.side;
     this.sideAssigned.next(charInfo); // no value passed here b/c we set our Subject to 'void'
+    this.charactersChanged.next();
     this.logService.writeLog(`changed side of ${charInfo.name}. New side: ${charInfo.side}`);
   }
 

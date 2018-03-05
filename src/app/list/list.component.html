@@ -10,10 +10,11 @@
          </svg>
         </div>
   </div>
+  <h4 *ngIf="characters.length === 0 && loadedSide !== 'all'">No characters have joined the {{loadedSide}} side...</h4>
   <br>
   <div class="table-nav">
     <button class="btn btn-info" (click)="paginate(-1)">&#60;</button>
-    <p>1 2 3 4</p>
+    <p class="pages" [ngClass]="{'currentPage': currentPage === (pages.indexOf(page)+1)}" *ngFor="let page of pages">&nbsp;{{ page }}&nbsp;</p>
     <button class="btn btn-info" (click)="paginate(1)">&#62;</button>
   </div>
 </div>
