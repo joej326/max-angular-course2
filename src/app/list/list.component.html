@@ -2,7 +2,7 @@
   <div *ngIf="characters.length > 0">
       <app-item *ngFor="let character of characters" [character]="character"></app-item>
   </div>
-  <div *ngIf="characters.length === 0 && loadedSide === 'all'">
+  <div *ngIf="fetching">
       <div class="loading">
           <h1>Loading</h1>
           <svg id="load" x="0px" y="0px" viewBox="0 0 150 150">
@@ -11,6 +11,7 @@
         </div>
   </div>
   <h4 *ngIf="characters.length === 0 && loadedSide !== 'all'">No characters have joined the {{loadedSide}} side...</h4>
+  <h4 *ngIf="characters.length === 0 && loadedSide === 'all'">No characters for this page...</h4>  
   <br>
   <div class="table-nav">
     <button class="btn btn-info" (click)="paginate(-1)">&#60;</button>

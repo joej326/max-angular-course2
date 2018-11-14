@@ -15,6 +15,10 @@ export class StarWarsService {
                                      // but using a subject is considered best practice
   http: Http;
   characterAddedMessage = new Subject<{name: string, side: string}>();
+  charactersFetchedForPages = new Subject<void>();
+  addedCharacters = [];
+  deletedCharacters = [];
+  currentPage: number;
 
   constructor(logService: LogService, http: Http) {
     this.logService = logService;
@@ -22,21 +26,99 @@ export class StarWarsService {
    }
 
    fetchCharacters(page) {
-     console.log('service page', page);
+     this.currentPage = page;
      this.http.get(`https://swapi.co/api/people/?page=${page}`).map((response: Response) => response.json())
          .subscribe(
           (data) => {
-            console.log('raw data:', data);
             const characterData = data.results;
-            const characters = characterData.map((char) => {
+            let characters = characterData.map((char) => {
               return {name: char.name, side: ''};
             });
-            console.log(characterData);
-            this.characters = characters;
+            characters = characters.filter((char) => {
+              if (this.deletedCharacters.includes(char.name)) {
+                return false;
+              } else {
+                return true;
+              }
+            });
+            this.characters = characters.slice();
+            if (this.currentPage === 1) {
+              for (let i = 0;i < this.addedCharacters.length;i++) {
+                this.characters.unshift(this.addedCharacters[i]);
+              }
+              // this.characters.unshift(newChar);
+          }
+            // if (this.characters.length === 0) {
+            //     for (let i = 0;i < this.addedCharacters.length;i++) {
+            //       this.characters.unshift(this.addedCharacters[i]);
+            //     }
+            //     // this.characters.unshift(newChar);
+            // }
+            
             this.charactersChanged.next();
           }
      );
    }
+
+   charactersTabOnClick() {
+    // this.currentPage = page;
+    this.http.get(`https://swapi.co/api/people/?page=${this.currentPage}`).map((response: Response) => response.json())
+        .subscribe(
+         (data) => {
+           const characterData = data.results;
+           const characters = characterData.map((char) => {
+             return {name: char.name, side: ''};
+           });
+           console.log(characterData);
+           this.characters = characters.slice();
+           if (this.currentPage === 1) {
+               for (let i = 0;i < this.addedCharacters.length;i++) {
+                 this.characters.unshift(this.addedCharacters[i]);
+               }
+               // this.characters.unshift(newChar);
+           }
+           
+           this.charactersChanged.next();
+         }
+    );
+   }
+
+
+  //  fillPages() {
+  //   let page = 1;
+  //   let allCharactersToFillPages = [];
+    
+  //   while(page <= 4) {
+  //     this.http.get(`https://swapi.co/api/people/?page=${page}`).map((response: Response) => response.json())
+  //     .subscribe(
+  //      (data) => {
+  //        const characterData = data.results;
+  //        const characters = characterData.map((char) => {
+  //          return {name: char.name, side: ''};
+  //        });
+         
+  //        allCharactersToFillPages = allCharactersToFillPages.concat(characters).slice();
+  //        console.log('allCharactersToFillPages from service', allCharactersToFillPages);
+  //        if (page === 4) {
+  //         console.log('should return', allCharactersToFillPages);
+  //         return allCharactersToFillPages;      
+  //       }
+        
+  //      }
+  // );
+
+  //   console.log('PAGE', allCharactersToFillPages);
+    
+    
+    
+  //   page++;
+  //   }
+  //   console.log('SHOULD RETURN THIS', allCharactersToFillPages);
+    
+  //   this.charactersFetchedForPages.next();
+  //   console.log('SHOULD RETURN THIS', allCharactersToFillPages);
+    
+  //  }
 
 
   getCharacters(chosenList) {
@@ -62,9 +144,21 @@ export class StarWarsService {
       return;
     }
     const newChar = {name: name, side: side};
-    this.characters.unshift(newChar);
+    this.addedCharacters.push(newChar);
 
     this.characterAddedMessage.next(newChar);
+  }
+
+  deleteCharacter(name) {
+    // console.log('delete ran', name);
+    const pos = this.characters.findIndex((char) => {
+      return char.name === name;
+    });
+    // console.log(pos);
+
+    this.deletedCharacters.push(this.characters[pos].name);
+    this.characters.splice(pos, 1);
+    this.charactersChanged.next();
   }
 
 }

@@ -1,0 +1,8 @@
+.delete-button {
+    display: inline-block;
+    float: right;
+    padding: 3px 7px;
+    font-size: 10px;
+    /* width: 5px; do not use width with buttons it messes up the text alignemnet --- use padding instead */ 
+}
+

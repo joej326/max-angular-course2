@@ -24,4 +24,8 @@ export class ItemComponent implements OnInit {
     this.swService.onSideChosen({name: this.character.name, side: side});
   }
 
+  onDelete() {
+    this.swService.deleteCharacter(this.character['name']);
+  }
+
 }

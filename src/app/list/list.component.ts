@@ -17,6 +17,8 @@ export class ListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   currentPage = 1;
   lastPage = 4;
+  fetching = true;
+  fetchedCharactersForPages;
   pages = [1, 2, 3, 4];
 
 
@@ -26,6 +28,9 @@ export class ListComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    // this.swService.charactersFetchedForPages.subscribe(
+    //   () => this.fillPages()
+    // );
     this.activatedRoute.params.subscribe(
       (params) => {
         this.characters = this.swService.getCharacters(params.side); // IMPORTANT the '.side' has to match the :side parameter!
@@ -40,9 +45,16 @@ export class ListComponent implements OnInit, OnDestroy {
     this.subscription = this.swService.charactersChanged.subscribe(
       // no data b/c remember our Subject is void, therefore our 'next()' is empty
       () => {
+        this.fetching = true;
         this.characters = this.swService.getCharacters(this.loadedSide);
+        this.fetching = false;        
+        // this.fillPages();
+    
       }
     );
+  }
+  ngAfterViewInit() {
+    
   }
 
   paginate(change) {
@@ -53,13 +65,25 @@ export class ListComponent implements OnInit, OnDestroy {
       this.currentPage += change;
       this.swService.fetchCharacters(this.currentPage);
     }
-    console.log('currentPage:', this.currentPage);
     // this.pages.findIndex((page) => {
     //   if (page === this.currentPage) {
     //     return true;
     //   }
     // });
   }
+
+  // fillPages() {
+  //   this.fetchedCharactersForPages = this.swService.fillPages();
+  //   console.log('fetchedCharactersForPages', this.fetchedCharactersForPages);
+    
+  //   let numberOfPages = this.fetchedCharactersForPages.length / 10;
+  //   let pushPages = 1;
+  //   while (pushPages <= numberOfPages) {
+  //     this.pages.push(pushPages);
+  //   }
+  //   console.log(this.pages);
+    
+  // }
 
   // we introduced a bug into our code where we were getting wonky behavior due to this
   // ngDestroy. To prevent this we moved a line of code into the app component.
