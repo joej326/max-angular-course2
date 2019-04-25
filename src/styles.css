@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+body {
+    background-color: black;
+}
+
+body > * {
+    color: white;
+}
+
+.list-group-item {
+    background-color: black;
+
+}
+
+h4 {
+    color: white !important;
+}
+
+.list-group-item:hover {
+    background-color: black !important;
+}
